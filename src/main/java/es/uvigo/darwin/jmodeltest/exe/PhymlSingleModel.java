@@ -28,6 +28,7 @@ import es.uvigo.darwin.jmodeltest.ApplicationOptions;
 import es.uvigo.darwin.jmodeltest.ModelTest;
 import es.uvigo.darwin.jmodeltest.io.TextInputStream;
 import es.uvigo.darwin.jmodeltest.model.Model;
+import es.uvigo.darwin.jmodeltest.observer.PhymlCmdlineObserver;
 import es.uvigo.darwin.jmodeltest.observer.ProgressInfo;
 import es.uvigo.darwin.jmodeltest.utilities.Utilities;
 
@@ -64,6 +65,7 @@ public class PhymlSingleModel extends Observable implements Runnable {
 				+ RunPhyml.PHYML_STATS_SUFFIX + model.getName();
 		this.phymlTreeFileName = options.getAlignmentFile().getAbsolutePath()
 				+ RunPhyml.PHYML_TREE_SUFFIX + model.getName();
+		this.addObserver( PhymlCmdlineObserver.getInstance() );
 	}
 
 	public PhymlSingleModel(Model model, int index, boolean justGetJCTree,
@@ -81,6 +83,9 @@ public class PhymlSingleModel extends Observable implements Runnable {
 
 			commandLine = writePhyml3CommandLine(model, justGetJCTree, options,
 					ignoreGaps, numberOfThreads);
+
+			notifyObservers(ProgressInfo.PHYML3CMDLINE, 0, null, commandLine);
+			
 			executeCommandLine();
 			
 			if (!interrupted) {

@@ -38,6 +38,7 @@ public class ProgressInfo {
 	public static final int ERROR = 21;
 	public static final int ERROR_BINARY_NOEXISTS = 22;
 	public static final int ERROR_BINARY_NOEXECUTE = 23;
+	public static final int PHYML3CMDLINE = 66;
 	
 	public static final int VALUE_REGULAR_OPTIMIZATION = 1;
 	public static final int VALUE_IGAPS_OPTIMIZATION = 2;
