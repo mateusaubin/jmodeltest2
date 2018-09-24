@@ -198,8 +198,8 @@ public class ModelTest {
 				finalize(-1);
 			}
         	
-			options.createLogFile();
-			options.createCkpFile();
+			//options.createLogFile();
+			//options.createCkpFile();
 			if (options.doingSimulations) {
 				Simulation sim = new Simulation(options);
 				sim.run();

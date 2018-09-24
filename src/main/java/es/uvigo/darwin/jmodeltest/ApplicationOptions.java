@@ -172,6 +172,7 @@ public class ApplicationOptions implements Serializable {
 			if (ModelTestConfiguration.isPhymlLogEnabled() && getInputFile() != null) {
 				logFile = new File(ModelTestConfiguration.getLogDir() + File.separator + getInputFile().getName() 
 						+ ".phyml." + executionName + ".log");
+				logFile.createNewFile();
 				if (!logFile.canWrite())
 				{
 					logFile = null;
@@ -528,6 +529,8 @@ public class ApplicationOptions implements Serializable {
 
 	public void setInputFile(File file) {
 		this.inputDataFile = file;
+		createLogFile();
+		createCkpFile();
 	}
 
 	public void setInputTreeFile(File file) {
