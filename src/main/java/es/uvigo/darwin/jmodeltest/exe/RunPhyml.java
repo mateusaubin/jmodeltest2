@@ -39,6 +39,7 @@ import es.uvigo.darwin.jmodeltest.ModelTestConfiguration;
 import es.uvigo.darwin.jmodeltest.io.TextOutputStream;
 import es.uvigo.darwin.jmodeltest.model.Model;
 import es.uvigo.darwin.jmodeltest.model.ModelComparator;
+import es.uvigo.darwin.jmodeltest.observer.PhymlCmdlineObserver;
 import es.uvigo.darwin.jmodeltest.observer.ProgressInfo;
 import es.uvigo.darwin.jmodeltest.utilities.Utilities;
 
@@ -60,6 +61,7 @@ public abstract class RunPhyml extends Observable implements Observer {
 	private static final boolean filterRateMatrix = true;
 	private static final boolean filterRateVariation = true;
 
+	private PhymlCmdlineObserver mestradoObserver;
 	protected ApplicationOptions options;
 	protected Model[] models;
 	protected Model gtrModel = null;
@@ -82,7 +84,7 @@ public abstract class RunPhyml extends Observable implements Observer {
 	private static boolean compatiblePhyml = false;
 	
 	protected Observer progress;
-
+	
 	public static boolean isCompatible() {
 		return compatiblePhyml;
 	}
@@ -212,7 +214,12 @@ public abstract class RunPhyml extends Observable implements Observer {
 			this.models[i] = models[i];
 		this.options = options;
 		this.progress = progress;
+		
+		this.mestradoObserver = new PhymlCmdlineObserver();
+		
 		this.addObserver(progress);
+		this.addObserver(this.mestradoObserver);
+		
 		Arrays.sort(this.models, new ModelComparator());
 	}
 

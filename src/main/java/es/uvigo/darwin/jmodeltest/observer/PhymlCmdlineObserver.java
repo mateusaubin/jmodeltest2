@@ -1,7 +1,7 @@
 package es.uvigo.darwin.jmodeltest.observer;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,19 +9,18 @@ import java.util.Observer;
 
 public class PhymlCmdlineObserver implements Observer {
 
-	private static PhymlCmdlineObserver instance;
-	
+	//private static PhymlCmdlineObserver instance;
+
 	private FileOutputStream logFile;
 	private PrintWriter printout;
 
-	private PhymlCmdlineObserver() {
+	public PhymlCmdlineObserver() {
 		try {
-			
+
 			logFile = new FileOutputStream("log/cmdlines.log", false);
 			printout = new PrintWriter(logFile);
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -29,22 +28,25 @@ public class PhymlCmdlineObserver implements Observer {
 
 	@Override
 	public synchronized void update(Observable o, Object arg) {
-		
+
 		ProgressInfo info = (ProgressInfo) arg;
-		if (info.getType() == ProgressInfo.PHYML3CMDLINE) {
+		int type = info.getType();
+
+		if (type == ProgressInfo.PHYML3CMDLINE) {
 
 			printout.println(info.getMessage());
 
-			printout.flush();
-		}
-	}
+		} else if (type == ProgressInfo.OPTIMIZATION_COMPLETED_OK) {
 
+			try {
+				printout.flush();
+				printout.close();
+				logFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-	public synchronized static PhymlCmdlineObserver getInstance() {
-		if (instance == null) {
-			instance = new PhymlCmdlineObserver();
 		}
-		return instance;
 	}
 
 }

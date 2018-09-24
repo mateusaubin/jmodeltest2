@@ -28,7 +28,6 @@ import es.uvigo.darwin.jmodeltest.ApplicationOptions;
 import es.uvigo.darwin.jmodeltest.ModelTest;
 import es.uvigo.darwin.jmodeltest.io.TextInputStream;
 import es.uvigo.darwin.jmodeltest.model.Model;
-import es.uvigo.darwin.jmodeltest.observer.PhymlCmdlineObserver;
 import es.uvigo.darwin.jmodeltest.observer.ProgressInfo;
 import es.uvigo.darwin.jmodeltest.utilities.Utilities;
 
@@ -65,7 +64,6 @@ public class PhymlSingleModel extends Observable implements Runnable {
 				+ RunPhyml.PHYML_STATS_SUFFIX + model.getName();
 		this.phymlTreeFileName = options.getAlignmentFile().getAbsolutePath()
 				+ RunPhyml.PHYML_TREE_SUFFIX + model.getName();
-		this.addObserver( PhymlCmdlineObserver.getInstance() );
 	}
 
 	public PhymlSingleModel(Model model, int index, boolean justGetJCTree,
@@ -141,11 +139,27 @@ public class PhymlSingleModel extends Observable implements Runnable {
 		// no bootrstrap or aLRT
 		sb.append(" -b 0");
 
+	    // set RNG seed
+	    sb.append(" --r_seed ").append(options.getRngSeed());
+		
+		// set execution id
+		sb.append(" --run_id ").append(currentModel.getName());
+
+		// avoid memory warning
+		sb.append(" --no_memory_check");
+		
+		// ------
+		// END OF FIXED BLOCK
+		// ------
+		
 		if (ignoreGaps) {
 			sb.append(" --no_gap");
 		}
-		// set execution id
-		sb.append(" --run_id ").append(currentModel.getName());
+
+		// threaded version
+		if (numberOfThreads > 0) {
+			sb.append(" --num_threads ").append(numberOfThreads);
+		}
 
 		// set custom model
 		sb.append(" -m ").append(currentModel.getPartition());
@@ -166,17 +180,6 @@ public class PhymlSingleModel extends Observable implements Runnable {
 			sb.append(" -a e");
 		} else
 			sb.append(" -c 1");
-
-		// threaded version
-		if (numberOfThreads > 0) {
-			sb.append(" --num_threads ").append(numberOfThreads);
-		}
-
-		// avoid memory warning
-		sb.append(" --no_memory_check");
-
-    // set RNG seed
-    sb.append(" --r_seed ").append(options.getRngSeed());
 
 		/*
 		 * params=tlr: tree topology (t), branch length (l) and substitution
