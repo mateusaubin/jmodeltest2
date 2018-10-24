@@ -109,6 +109,7 @@ public class RunPhymlThread extends RunPhyml {
 						globalBestScore = bestScore;
 					}
 				}
+				notifyObservers(ProgressInfo.OPTIMIZATION_STAGE_COMPLETED, models.length, null, null);
 			}
 			ModelTest.purgeModels();
 		} else {
