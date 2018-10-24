@@ -50,7 +50,6 @@ class StreamGobbler extends Thread {
 	}
 
 	public void run() {
-		int i=0;
 		try {
 			PrintWriter pwFile = null;
 			PrintWriter pwConsole = null;
