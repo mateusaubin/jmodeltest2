@@ -653,7 +653,7 @@ public class ApplicationOptions implements Serializable {
 	 */
 	public void setSubstTypeCode(int substTypeCode) {
 		this.substTypeCode = substTypeCode;
-		this.doClusteringSearch = (substTypeCode == 4);
+		//this.doClusteringSearch = (substTypeCode == 4);
 	}
 
 	/**
