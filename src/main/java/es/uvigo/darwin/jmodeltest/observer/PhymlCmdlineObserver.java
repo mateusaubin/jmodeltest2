@@ -19,7 +19,7 @@ public class PhymlCmdlineObserver implements Observer {
 	public PhymlCmdlineObserver() {
 		try {
 
-			var filename = ModelTestConfiguration.getLogDir() + File.separator + "cmdlines.log";
+			String filename = ModelTestConfiguration.getLogDir() + File.separator + "cmdlines.log";
 			logFile = new FileOutputStream(filename, false);
 			printout = new PrintWriter(logFile);
 
@@ -40,7 +40,7 @@ public class PhymlCmdlineObserver implements Observer {
 			printout.println(info.getMessage());
 			break;
 		case ProgressInfo.OPTIMIZATION_STAGE_COMPLETED:
-			var strmsg = System.lineSeparator() + System.lineSeparator() + "-- STAGE COMPLETE -- " + System.lineSeparator() + System.lineSeparator();
+			String strmsg = System.lineSeparator() + System.lineSeparator() + "-- STAGE COMPLETE -- " + System.lineSeparator() + System.lineSeparator();
 			printout.println(strmsg);
 			break;
 		case ProgressInfo.OPTIMIZATION_COMPLETED_INTERRUPTED:
