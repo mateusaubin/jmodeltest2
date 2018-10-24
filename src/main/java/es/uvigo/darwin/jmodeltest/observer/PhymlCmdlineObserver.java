@@ -45,6 +45,8 @@ public class PhymlCmdlineObserver implements Observer {
 			break;
 		case ProgressInfo.OPTIMIZATION_COMPLETED_INTERRUPTED:
 		case ProgressInfo.OPTIMIZATION_COMPLETED_OK:
+		case ProgressInfo.INTERRUPTED:
+		case ProgressInfo.ERROR:
 			try {
 				printout.flush();
 				printout.close();
