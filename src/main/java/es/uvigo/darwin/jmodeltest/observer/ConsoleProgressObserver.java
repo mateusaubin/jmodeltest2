@@ -76,8 +76,8 @@ public class ConsoleProgressObserver implements Observer {
 				stream.println(" ");stream.println(" ");
 				stream.println("::Progress::");
 				stream.println(" ");
-				stream.println("Model \t\t Exec. Time \t Total Time \t -lnL");
-				stream.println("-------------------------------------------------------------------------");
+				stream.println("Model \t\t Exec. Time \t\t-lnL");
+				stream.println("---------------------------------------------------------");
 				break;
 			
 			case ProgressInfo.GTR_OPTIMIZATION_INIT:
@@ -103,7 +103,7 @@ public class ConsoleProgressObserver implements Observer {
 				if (info.getModel().getName().length()<8)
 					stream.print("\t");
 				stream.print(info.getMessage() + "\t" 
-						+ Utilities.calculateRuntime(startTime, System.currentTimeMillis()) + "\t" 
+						//+ Utilities.calculateRuntime(startTime, System.currentTimeMillis()) + "\t" 
 						+ String.format(Locale.ENGLISH, "%13.4f", modelLnL));
 				if (ModelTest.MPJ_RUN && threadScheduling) {
 					stream.println(" ");
