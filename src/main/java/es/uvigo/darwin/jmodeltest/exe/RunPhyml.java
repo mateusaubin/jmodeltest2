@@ -215,7 +215,7 @@ public abstract class RunPhyml extends Observable implements Observer {
 		this.options = options;
 		this.progress = progress;
 		
-		this.mestradoObserver = new PhymlCmdlineObserver();
+		this.mestradoObserver = new PhymlCmdlineObserver(options);
 		
 		this.addObserver(progress);
 		this.addObserver(this.mestradoObserver);
