@@ -103,6 +103,7 @@ public class RunPhymlThread extends RunPhyml {
 					// Check LnL
 					if (globalBestModel.getLnL()>0 && bestScore > globalBestScore) {
 						// End of algorithm
+						notifyObservers(ProgressInfo.OPTIMIZATION_STAGE_COMPLETED, models.length, null, null);
 						break;
 					} else {
 						globalBestModel = bestModel;

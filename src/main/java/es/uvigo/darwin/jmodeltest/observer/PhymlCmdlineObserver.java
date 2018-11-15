@@ -32,32 +32,35 @@ public class PhymlCmdlineObserver implements Observer {
 
 
 	@Override
-	public synchronized void update(Observable o, Object arg) {
+	public void update(Observable o, Object arg) {
 
 		ProgressInfo info = (ProgressInfo) arg;
 		int type = info.getType();
 
-		switch (type) {
-		case ProgressInfo.PHYML3CMDLINE:
-			printout.println(info.getMessage());
-			break;
-		case ProgressInfo.OPTIMIZATION_STAGE_COMPLETED:
-			printout.flush();
-			String strmsg = System.lineSeparator() + System.lineSeparator() + "$$ STAGE COMPLETE $$" + System.lineSeparator() + System.lineSeparator();
-			printout.println(strmsg);
-			break;
-		case ProgressInfo.OPTIMIZATION_COMPLETED_INTERRUPTED:
-		case ProgressInfo.OPTIMIZATION_COMPLETED_OK:
-		case ProgressInfo.INTERRUPTED:
-		case ProgressInfo.ERROR:
-			try {
+		synchronized (PhymlCmdlineObserver.class) {
+			switch (type) {
+			case ProgressInfo.PHYML3CMDLINE:
+				printout.println(info.getMessage());
+				break;
+			case ProgressInfo.OPTIMIZATION_STAGE_COMPLETED:
 				printout.flush();
-				printout.close();
-				logFile.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				String strmsg = System.lineSeparator() + System.lineSeparator() + "$$ STAGE COMPLETE $$"
+						+ System.lineSeparator() + System.lineSeparator();
+				printout.println(strmsg);
+				break;
+			case ProgressInfo.OPTIMIZATION_COMPLETED_INTERRUPTED:
+			case ProgressInfo.OPTIMIZATION_COMPLETED_OK:
+			case ProgressInfo.INTERRUPTED:
+			case ProgressInfo.ERROR:
+				try {
+					printout.flush();
+					printout.close();
+					logFile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 			}
-			break;
 		}
 	}
 
